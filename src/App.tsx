@@ -37,17 +37,17 @@ export function App() {
   const [deployments, setDeployments] = useState<DeploymentRecord[]>(initialDeployments);
   const [versions, setVersions] = useState<VersionArtifact[]>(initialVersions);
 
-  // Alert State
+  // 告警横幅与未处理告警数量
   const [alertBannerVisible, setAlertBannerVisible] = useState<boolean>(true);
   const [unresolvedAlertCount, setUnresolvedAlertCount] = useState<number>(1);
 
-  // Modals
+  // 各类弹窗开关
   const [isRollbackOpen, setIsRollbackOpen] = useState(false);
   const [rollbackProject, setRollbackProject] = useState<Project | null>(null);
   const [rollbackVersion, setRollbackVersion] = useState<VersionArtifact | null>(null);
 
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
-  const [terminalTitle, setTerminalTitle] = useState('SSH Remote Console - opspilot@192.168.1.120');
+  const [terminalTitle, setTerminalTitle] = useState('远程终端控制台 - 运维平台@192.168.1.120');
 
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
@@ -55,7 +55,7 @@ export function App() {
   const [isDeployModalOpen, setIsDeployModalOpen] = useState(false);
   const [isQuickDocsOpen, setIsQuickDocsOpen] = useState(false);
 
-  // Notification Toast
+  // 全局操作提示
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -63,7 +63,7 @@ export function App() {
     setTimeout(() => setToastMessage(null), 3500);
   };
 
-  // Trigger Rollback flow
+  // 触发版本回滚流程
   const handleOpenRollback = (targetProjNameOrVer?: string | VersionArtifact) => {
     if (typeof targetProjNameOrVer === 'object' && targetProjNameOrVer !== null) {
       const ver = targetProjNameOrVer as VersionArtifact;
@@ -71,7 +71,7 @@ export function App() {
       setRollbackProject(proj);
       setRollbackVersion(ver);
     } else {
-      const projName = typeof targetProjNameOrVer === 'string' ? targetProjNameOrVer : 'Order-System';
+      const projName = typeof targetProjNameOrVer === 'string' ? targetProjNameOrVer : '订单系统';
       const proj = projects.find(p => p.name === projName) || projects[0];
       const targetVer = versions.find(v => v.projectName === proj.name && !v.isCurrentRunning) || versions[1];
       setRollbackProject(proj);
@@ -82,24 +82,24 @@ export function App() {
 
   const handleExecuteRollback = (reason: string) => {
     if (rollbackProject && rollbackVersion) {
-      // 1. Update project status to Running with target version
+      // 1. 将目标工程切换至回滚版本，并置为运行中状态
       setProjects(prev => prev.map(p => {
         if (p.id === rollbackProject.id) {
           return {
             ...p,
-            status: 'Running',
-            statusDetail: undefined,
+            status: '运行中',
+            statusDetail: '运行中 (已回滚)',
             version: rollbackVersion.version,
             gitCommit: rollbackVersion.commit,
             gitMessage: rollbackVersion.commitMessage,
             updatedAt: '刚刚 (已回滚)',
-            updatedBy: 'admin'
+            updatedBy: '管理员'
           };
         }
         return p;
       }));
 
-      // 2. Add new rollback deployment record
+      // 2. 新增一条回滚部署记录
       const newDep: DeploymentRecord = {
         id: `dep-${Math.floor(10000 + Math.random() * 90000)}`,
         projectName: rollbackProject.name,
@@ -114,7 +114,7 @@ export function App() {
       };
       setDeployments(prev => [newDep, ...prev]);
 
-      // 3. Clear critical alert
+      // 3. 清除严重告警
       setUnresolvedAlertCount(0);
       setAlertBannerVisible(false);
 
@@ -122,37 +122,38 @@ export function App() {
     }
   };
 
-  const handleOpenTerminal = (nodeName: string = 'Production-Server') => {
+  const handleOpenTerminal = (nodeName: string = '生产服务器') => {
     const node = servers.find(s => s.name === nodeName) || servers[0];
-    setTerminalTitle(`SSH Remote Web Console - root@${node.internalIp}:${node.port} (${node.name})`);
+    setTerminalTitle(`远程终端控制台 - root@${node.internalIp}:${node.port} (${node.name})`);
     setIsTerminalOpen(true);
   };
 
   const handleAddProject = (newProjData: Partial<Project>) => {
     const newProj: Project = {
       id: `proj-${Date.now()}`,
-      name: newProjData.name || 'New-Service',
+      name: newProjData.name || '新建服务',
       techStack: newProjData.techStack || '.NET 8 (C#)',
       framework: newProjData.framework || '.NET 8 / C#',
-      environment: newProjData.environment || 'Production',
-      hostNode: newProjData.hostNode || 'Production-Server',
+      environment: newProjData.environment || '生产环境',
+      hostNode: newProjData.hostNode || '生产服务器',
       hostIp: newProjData.hostIp || '192.168.1.120',
-      containerName: newProjData.containerName || 'new-app',
+      containerName: newProjData.containerName || '新应用容器',
       portMap: newProjData.portMap || '8080:8080',
-      status: 'Running',
+      status: '运行中',
+      statusDetail: '运行中',
       version: 'v20260905.001',
-      gitBranch: newProjData.gitBranch || 'main',
+      gitBranch: newProjData.gitBranch || '主干',
       gitCommit: newProjData.gitCommit || '8a72f31',
-      gitMessage: 'feat: 初始化微服务并集成 OpsPilot',
+      gitMessage: '新功能：初始化微服务并接入 OpsPilot',
       gitRepoUrl: newProjData.gitRepoUrl || 'https://github.com/myteam/new-service.git',
       dockerfilePath: './Dockerfile',
       imageTag: `registry.local/${newProjData.name?.toLowerCase()}:v20260905.001`,
-      deployStrategy: '停机热替 (Recreate)',
+      deployStrategy: '停机热替',
       cpuUsage: 4,
       memoryUsage: 14,
       updatedAt: '刚刚',
-      updatedBy: 'admin',
-      envVars: newProjData.envVars || [{ key: 'ENVIRONMENT', value: 'Production' }],
+      updatedBy: '管理员',
+      envVars: newProjData.envVars || [{ key: 'ENVIRONMENT', value: '生产' }],
       healthCheck: { path: '/health', interval: '10s', timeout: '3s', retries: 3 }
     };
     setProjects(prev => [newProj, ...prev]);
@@ -162,14 +163,14 @@ export function App() {
   const handleAddServer = (newServerData: Partial<ServerNode>) => {
     const newServer: ServerNode = {
       id: `srv-${Date.now()}`,
-      name: newServerData.name || 'New-Node',
+      name: newServerData.name || '新节点',
       role: newServerData.role || '开发测试',
-      status: 'ONLINE',
+      status: '在线',
       internalIp: newServerData.internalIp || '192.168.1.150',
       port: newServerData.port || 22,
       os: newServerData.os || 'Ubuntu 22.04 LTS (x86_64)',
-      dockerVersion: 'Docker 24.0.7 Running (API 1.43)',
-      cpuCores: '4 Cores / AMD EPYC 2.8GHz',
+      dockerVersion: 'Docker 24.0.7 运行中 (接口 1.43)',
+      cpuCores: '4 核 / AMD 霄龙 2.8GHz',
       cpuLoad: 12,
       memoryUsed: 1.8,
       memoryTotal: 8.0,
@@ -196,38 +197,38 @@ export function App() {
 
   return (
     <div className="flex bg-[#0b101b] text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-black">
-      {/* Left Sidebar Navigation */}
+      {/* 左侧导航栏 */}
       <Sidebar 
         currentTab={currentTab} 
         onSelectTab={setCurrentTab} 
         onOpenQuickDocs={() => setIsQuickDocsOpen(true)}
       />
 
-      {/* Main Container Area */}
+      {/* 右侧主内容区 */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Sticky Top Header */}
+        {/* 顶部固定头栏 */}
         <Header 
           currentEnv={currentEnv}
           onEnvChange={setCurrentEnv}
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-          onOpenAlertDetails={() => handleOpenRollback('Order-System')}
+          onOpenAlertDetails={() => handleOpenRollback('订单系统')}
           unresolvedAlertCount={unresolvedAlertCount}
         />
 
-        {/* Scrollable View Content */}
+        {/* 可滚动视图内容 */}
         <main className="flex-1 p-6 max-w-7xl mx-auto w-full">
-          {/* Critical Alert Banner (Visible when alert count > 0) */}
+          {/* 严重告警横幅（存在未处理告警时展示） */}
           {alertBannerVisible && unresolvedAlertCount > 0 && (
             <AlertBanner 
               onOpenDiagnosticLogs={() => {
                 setCurrentTab('logs');
               }}
-              onTriggerRollback={() => handleOpenRollback('Order-System')}
+              onTriggerRollback={() => handleOpenRollback('订单系统')}
               onDismiss={() => setAlertBannerVisible(false)}
             />
           )}
 
-          {/* Active View Transition */}
+          {/* 视图切换动画 */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTab}
@@ -306,7 +307,7 @@ export function App() {
         </main>
       </div>
 
-      {/* Global Modals & Overlays */}
+      {/* 全局弹窗与浮层 */}
       <RollbackModal 
         isOpen={isRollbackOpen}
         onClose={() => setIsRollbackOpen(false)}
@@ -328,8 +329,8 @@ export function App() {
         onSelectProject={(proj) => {
           setCurrentTab('projects');
         }}
-        onTriggerRollback={() => handleOpenRollback('Order-System')}
-        onOpenTerminal={() => handleOpenTerminal('Production-Server')}
+        onTriggerRollback={() => handleOpenRollback('订单系统')}
+        onOpenTerminal={() => handleOpenTerminal('生产服务器')}
       />
 
       <NewProjectModal 
@@ -356,7 +357,7 @@ export function App() {
         onClose={() => setIsQuickDocsOpen(false)}
       />
 
-      {/* Action Toast Feedback */}
+      {/* 操作结果轻提示 */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 bg-[#0d1627] border border-cyan-500/60 rounded-xl shadow-2xl text-xs text-white font-medium animate-in slide-in-from-bottom-3">
           <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />

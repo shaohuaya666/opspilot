@@ -32,22 +32,22 @@ export const Header: React.FC<HeaderProps> = ({
 
   const envOptions = [
     '全局生产与开发环境',
-    '生产集群 (Production-Cluster)',
-    '测试集群 (Test-Cluster)',
-    '开发集群 (Dev-Cluster)'
+    '生产集群',
+    '测试集群',
+    '开发集群'
   ];
 
   return (
     <header id="app-header" className="h-16 bg-[#080d1a]/95 backdrop-blur border-b border-slate-800/80 px-6 flex items-center justify-between sticky top-0 z-30">
-      {/* Left section: Breadcrumb & Cluster filter */}
+      {/* 左侧：面包屑与集群筛选 */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 text-sm font-semibold text-slate-300">
           <span className="text-white font-bold">OpsPilot</span>
           <span className="text-slate-500">/</span>
-          <span className="text-slate-400 font-normal">Console</span>
+          <span className="text-slate-400 font-normal">控制台</span>
         </div>
 
-        {/* Environment Filter Pill */}
+        {/* 运行环境筛选胶囊 */}
         <div className="relative">
           <button
             id="env-selector-btn"
@@ -84,19 +84,19 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Middle & Right Section */}
+      {/* 中部与右侧功能区 */}
       <div className="flex items-center gap-3">
-        {/* Global Search Input (Ctrl+K) */}
+        {/* 全局搜索入口（快捷键 Ctrl+K） */}
         <div 
           onClick={onOpenCommandPalette}
           className="relative flex items-center bg-[#0d1424] hover:bg-[#111a30] border border-slate-800/90 hover:border-slate-700 rounded-lg px-3 py-1.5 w-80 text-xs text-slate-400 cursor-pointer transition-all shadow-inner group"
         >
           <Search className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 mr-2 shrink-0 transition-colors" />
-          <span className="flex-1 truncate">Search commands, pods, releases...</span>
+          <span className="flex-1 truncate">搜索命令、容器组、发布版本...</span>
           <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-800/90 border border-slate-700/80 text-slate-400 rounded">Ctrl+K</kbd>
         </div>
 
-        {/* Alert Pill (Critical Alert Status) */}
+        {/* 告警状态胶囊 */}
         {unresolvedAlertCount > 0 ? (
           <button
             id="header-alert-pill"
@@ -113,13 +113,13 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         )}
 
-        {/* Nodes Health Pill */}
+        {/* 节点健康度胶囊 */}
         <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
           <span>3/3 在线</span>
         </div>
 
-        {/* Notifications Bell */}
+        {/* 通知铃铛 */}
         <div className="relative">
           <button 
             id="notifications-btn"
@@ -145,7 +145,7 @@ export const Header: React.FC<HeaderProps> = ({
                     容器死锁与探活超时
                   </div>
                   <div className="text-slate-300 mt-1 text-[11px]">
-                    Order-System 在 Dev-Server 上最近一次部署因端口探测超时失败，已触发自动熔断保护。
+                    订单系统 在 开发服务器 上最近一次部署因端口探测超时失败，已触发自动熔断保护。
                   </div>
                   <div className="text-slate-500 text-[10px] mt-1 font-mono">10分钟前 · 需运维介入</div>
                 </div>
@@ -156,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({
                     流水线部署完成
                   </div>
                   <div className="text-slate-300 mt-1 text-[11px]">
-                    Blog-System v20260904.001 已成功发布至 Production-Server。
+                    博客系统 v20260904.001 已成功发布至 生产服务器。
                   </div>
                   <div className="text-slate-500 text-[10px] mt-1 font-mono">12分钟前 · 耗时 45s</div>
                 </div>
@@ -165,19 +165,19 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </div>
 
-        {/* User Profile */}
+        {/* 当前登录用户 */}
         <div className="flex items-center gap-2.5 pl-2 border-l border-slate-800">
           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 p-[1.5px] shadow">
             <img 
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" 
-              alt="Avatar" 
+              alt="用户头像" 
               className="w-full h-full object-cover rounded-full"
               referrerPolicy="no-referrer"
             />
           </div>
           <div className="hidden sm:block text-left">
-            <div className="text-xs font-semibold text-slate-200 leading-none">Administrator</div>
-            <div className="text-[10px] text-slate-400 font-mono mt-0.5">Cluster Root</div>
+            <div className="text-xs font-semibold text-slate-200 leading-none">系统管理员</div>
+            <div className="text-[10px] text-slate-400 font-mono mt-0.5">集群管理员</div>
           </div>
         </div>
       </div>

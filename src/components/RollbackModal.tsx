@@ -35,8 +35,8 @@ export const RollbackModal: React.FC<RollbackModalProps> = ({
   const currentCommitStr = targetProject?.gitCommit || '8a72f31';
   const targetVersionStr = targetVersion?.version || 'v20260903.002';
   const targetCommitStr = targetVersion?.commit || '71ac921';
-  const targetCommitMsg = targetVersion?.commitMessage || 'fix: 修复用户授权中间件偶发超时问题';
-  const hostStr = targetProject?.hostNode || 'Production-Server';
+  const targetCommitMsg = targetVersion?.commitMessage || '缺陷修复：修复用户授权中间件偶发超时问题';
+  const hostStr = targetProject?.hostNode || '生产服务器';
   const ipStr = targetProject?.hostIp ? `${targetProject.hostIp}:5000` : '192.168.1.120:5000';
   const artifactStr = targetVersion?.imageTag ? targetVersion.imageTag.replace('registry.local/', '') : 'blog-system:71ac921';
 
@@ -56,7 +56,7 @@ export const RollbackModal: React.FC<RollbackModalProps> = ({
         id="rollback-confirmation-modal"
         className="w-full max-w-xl bg-[#0e1626] border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
       >
-        {/* Header */}
+        {/* 弹窗头部 */}
         <div className="p-5 border-b border-slate-800/80 flex items-start justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
@@ -65,10 +65,10 @@ export const RollbackModal: React.FC<RollbackModalProps> = ({
             <div>
               <h2 className="text-base font-bold text-white tracking-tight flex items-center gap-2">
                 <span>确认回滚服务版本</span>
-                <span className="text-xs font-normal text-slate-400 font-mono">(Rollback Confirmation)</span>
+                <span className="text-xs font-normal text-slate-400 font-mono">（回滚确认）</span>
               </h2>
-              <div className="text-[11px] font-mono tracking-wider font-semibold text-red-400/90 uppercase mt-0.5">
-                High Risk Production Operation
+              <div className="text-[11px] font-mono tracking-wider font-semibold text-red-400/90 mt-0.5">
+                高危生产环境操作
               </div>
             </div>
           </div>
@@ -81,9 +81,9 @@ export const RollbackModal: React.FC<RollbackModalProps> = ({
           </button>
         </div>
 
-        {/* Content Body */}
+        {/* 弹窗内容区 */}
         <div className="p-6 space-y-5">
-          {/* Version Diff View */}
+          {/* 版本差异对比 */}
           <div className="bg-[#090d17] border border-slate-800 rounded-xl p-4 space-y-3">
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">源版本 (当前运行):</span>
@@ -112,34 +112,34 @@ export const RollbackModal: React.FC<RollbackModalProps> = ({
             </div>
           </div>
 
-          {/* Target Host & Pull Artifact Grid */}
+          {/* 目标主机与拉取制品 */}
           <div className="grid grid-cols-2 gap-3 text-xs">
             <div className="bg-[#090d17] border border-slate-800/80 rounded-xl p-3">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1">
-                TARGET HOST
+              <div className="text-[10px] font-mono tracking-wider text-slate-400 mb-1">
+                目标主机
               </div>
               <div className="font-semibold text-slate-200">{hostStr}</div>
               <div className="text-[11px] font-mono text-slate-400 mt-0.5">{ipStr}</div>
             </div>
 
             <div className="bg-[#090d17] border border-slate-800/80 rounded-xl p-3">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1">
-                PULL ARTIFACT
+              <div className="text-[10px] font-mono tracking-wider text-slate-400 mb-1">
+                拉取制品
               </div>
               <div className="font-mono font-semibold text-cyan-300 truncate">{artifactStr}</div>
-              <div className="text-[11px] text-emerald-400 mt-0.5">Cached Locally (0s pull)</div>
+              <div className="text-[11px] text-emerald-400 mt-0.5">已本地缓存（拉取耗时 0 秒）</div>
             </div>
           </div>
 
-          {/* Informational Callout */}
+          {/* 风险提示说明 */}
           <div className="flex items-start gap-2.5 bg-cyan-950/30 border border-cyan-500/30 rounded-xl p-3.5 text-xs text-slate-300">
             <Info className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
             <p className="leading-relaxed">
-              平台将使用已构建的历史镜像极速替换当前容器，零构建耗时，预计造成约 <strong className="text-cyan-300">3~5 秒</strong> 服务停机，并生成类型为 <strong className="text-white font-mono">Rollback</strong> 的新部署审计记录。
+              平台将使用已构建的历史镜像极速替换当前容器，零构建耗时，预计造成约 <strong className="text-cyan-300">3~5 秒</strong> 服务停机，并生成类型为 <strong className="text-white font-mono">回滚</strong> 的新部署审计记录。
             </p>
           </div>
 
-          {/* Form Input */}
+          {/* 回滚理由输入 */}
           <div className="space-y-1.5">
             <label className="text-xs font-medium text-slate-300 flex items-center justify-between">
               <span>操作人确认与理由输入 <span className="text-red-400">*</span></span>
@@ -156,7 +156,7 @@ export const RollbackModal: React.FC<RollbackModalProps> = ({
           </div>
         </div>
 
-        {/* Footer actions */}
+        {/* 底部操作按钮 */}
         <div className="p-4 border-t border-slate-800/80 bg-[#090d17]/50 flex items-center justify-end gap-3">
           <button
             id="cancel-rollback-btn"

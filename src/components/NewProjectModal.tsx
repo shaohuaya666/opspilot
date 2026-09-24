@@ -15,11 +15,11 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
 }) => {
   const [name, setName] = useState('');
   const [techStack, setTechStack] = useState('.NET 8 (C#)');
-  const [environment, setEnvironment] = useState<Environment>('Production');
+  const [environment, setEnvironment] = useState<Environment>('生产环境');
   const [repoUrl, setRepoUrl] = useState('');
-  const [branch, setBranch] = useState('main');
+  const [branch, setBranch] = useState('主干');
   const [port, setPort] = useState('8080');
-  const [hostNode, setHostNode] = useState('Production-Server');
+  const [hostNode, setHostNode] = useState('生产服务器');
 
   if (!isOpen) return null;
 
@@ -35,20 +35,21 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
       gitRepoUrl: repoUrl || `https://github.com/myteam/${name.toLowerCase()}.git`,
       gitBranch: branch,
       gitCommit: Math.random().toString(16).substring(2, 9),
-      gitMessage: 'feat: 初始化微服务并集成 OpsPilot 持续部署规范',
+      gitMessage: '新功能：初始化微服务并接入 OpsPilot 持续部署规范',
       portMap: `${port}:${port}`,
       hostNode,
-      hostIp: hostNode === 'Production-Server' ? '192.168.1.120' : hostNode === 'Dev-Server' ? '192.168.1.121' : '192.168.1.122',
-      containerName: `${name.toLowerCase()}-app`,
-      status: 'Running',
+      hostIp: hostNode === '生产服务器' ? '192.168.1.120' : hostNode === '开发服务器' ? '192.168.1.121' : '192.168.1.122',
+      containerName: `${name}-容器`,
+      status: '运行中',
+      statusDetail: '运行中',
       version: `v20260905.001`,
       dockerfilePath: './Dockerfile',
       imageTag: `registry.local/${name.toLowerCase()}:v20260905.001`,
-      deployStrategy: '停机热替 (Recreate)',
+      deployStrategy: '停机热替',
       cpuUsage: 5,
       memoryUsage: 15,
       updatedAt: '刚刚',
-      updatedBy: 'admin',
+      updatedBy: '管理员',
       envVars: [{ key: 'ENVIRONMENT', value: environment }],
       healthCheck: { path: '/health', interval: '10s', timeout: '3s', retries: 3 }
     });
@@ -66,7 +67,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
             </div>
             <div>
               <h2 className="text-base font-bold text-white">新增服务项目</h2>
-              <div className="text-xs text-slate-400 font-mono">Onboard New Containerized Microservice</div>
+              <div className="text-xs text-slate-400 font-mono">接入新的容器化微服务工程</div>
             </div>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
@@ -80,7 +81,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
             <input 
               type="text" 
               required
-              placeholder="例如: Auth-Service, Payment-Worker"
+              placeholder="例如：认证服务、支付任务"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full bg-[#080d17] border border-slate-700 rounded-lg px-3.5 py-2.5 text-white outline-none focus:border-cyan-500"
@@ -110,9 +111,9 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
                 onChange={(e) => setEnvironment(e.target.value as Environment)}
                 className="w-full bg-[#080d17] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
               >
-                <option value="Production">Production (生产集群)</option>
-                <option value="Dev">Dev (开发测试)</option>
-                <option value="Test">Test (预发布测试)</option>
+                <option value="生产环境">生产环境（生产集群）</option>
+                <option value="开发环境">开发环境（开发测试）</option>
+                <option value="测试环境">测试环境（预发布测试）</option>
               </select>
             </div>
           </div>
@@ -125,9 +126,9 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
                 onChange={(e) => setHostNode(e.target.value)}
                 className="w-full bg-[#080d17] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
               >
-                <option value="Production-Server">Production-Server (192.168.1.120)</option>
-                <option value="Dev-Server">Dev-Server (192.168.1.121)</option>
-                <option value="Test-Server">Test-Server (192.168.1.122)</option>
+                <option value="生产服务器">生产服务器 (192.168.1.120)</option>
+                <option value="开发服务器">开发服务器 (192.168.1.121)</option>
+                <option value="测试服务器">测试服务器 (192.168.1.122)</option>
               </select>
             </div>
 

@@ -36,12 +36,12 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
   onTriggerRollback,
   onNavigate
 }) => {
-  const [selectedEnv, setSelectedEnv] = useState<string>('ALL');
+  const [selectedEnv, setSelectedEnv] = useState<string>('全部');
   const [searchQuery, setSearchQuery] = useState('');
-  const [spotlightProjectName, setSpotlightProjectName] = useState('Blog-System');
+  const [spotlightProjectName, setSpotlightProjectName] = useState('博客系统');
 
   const filteredProjects = projects.filter(p => {
-    if (selectedEnv !== 'ALL' && p.environment !== selectedEnv) return false;
+    if (selectedEnv !== '全部' && p.environment !== selectedEnv) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       return (
@@ -58,7 +58,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
 
   return (
     <div id="projects-view" className="space-y-6">
-      {/* Title & Actions Bar */}
+      {/* 标题与操作栏 */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
@@ -67,7 +67,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             <span className="text-cyan-400 font-bold">服务治理</span>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight mt-1">
-            项目管理 · Project Hub
+            项目管理 · 服务工程中台
           </h1>
           <p className="text-xs text-slate-400 mt-0.5">
             纳管企业微服务应用工程，配置构建镜像规约、持续交付发布策略及宿主绑定
@@ -102,7 +102,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
         </div>
       </div>
 
-      {/* Summary Metrics Row */}
+      {/* 汇总指标区 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-4 shadow-sm">
           <div className="text-xs text-slate-400 font-medium">纳入工程总数</div>
@@ -136,10 +136,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
         </div>
       </div>
 
-      {/* Environment Filter & Search Bar */}
+      {/* 环境筛选与搜索栏 */}
       <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-3 flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2 flex-wrap">
-          {['ALL', 'Production', 'Dev', 'Test'].map(env => (
+          {['全部', '生产环境', '开发环境', '测试环境'].map(env => (
             <button
               key={env}
               onClick={() => setSelectedEnv(env)}
@@ -149,7 +149,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800'
               }`}
             >
-              {env === 'ALL' ? '全部环境 (All)' : `${env} (${env === 'Production' ? '生产' : env === 'Dev' ? '开发' : '测试'})`}
+              {env === '全部' ? '全部环境' : env}
             </button>
           ))}
         </div>
@@ -166,7 +166,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
         </div>
       </div>
 
-      {/* Spotlight Project Card (Focused microservice detailed showcase matching Image 9) */}
+      {/* 焦点工程详情卡片 */}
       {spotlightProject && (
         <div className="bg-gradient-to-r from-[#0d172a] via-[#0e1626] to-[#0a1120] border-2 border-cyan-500/50 rounded-2xl p-6 shadow-xl relative overflow-hidden space-y-5">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-800 pb-4">
@@ -181,7 +181,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     {spotlightProject.techStack}
                   </span>
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium flex items-center gap-1 ${
-                    spotlightProject.status === 'Running' 
+                    spotlightProject.status === '运行中' 
                       ? 'bg-emerald-950/80 border border-emerald-500/50 text-emerald-400' 
                       : 'bg-red-950/80 border border-red-500/50 text-red-400'
                   }`}>
@@ -217,7 +217,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             </div>
           </div>
 
-          {/* Specs & Configuration Grid */}
+          {/* 规格与配置网格 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
             <div className="bg-[#080d17] border border-slate-800 rounded-xl p-3.5 space-y-1">
               <div className="text-slate-400 text-[11px] font-mono uppercase">运行环境与宿主机</div>
@@ -247,7 +247,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             </div>
           </div>
 
-          {/* Injected Env & Health Probe Info */}
+          {/* 环境变量与健康探针信息 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-1">
             <div className="bg-[#080d17] border border-slate-800 rounded-xl p-3.5 space-y-2">
               <div className="flex items-center justify-between">
@@ -259,7 +259,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   <div key={ev.key} className="flex justify-between text-slate-300">
                     <span className="text-slate-500">{ev.key}:</span>
                     <span className={ev.encrypted ? 'text-cyan-400' : 'text-slate-200'}>
-                      {ev.encrypted ? '************ (Encrypted)' : ev.value}
+                      {ev.encrypted ? '************（已加密）' : ev.value}
                     </span>
                   </div>
                 ))}
@@ -290,7 +290,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
         </div>
       )}
 
-      {/* Grid of Other Projects */}
+      {/* 全部工程卡片网格 */}
       <div className="space-y-3">
         <h3 className="text-sm font-bold text-white tracking-tight flex items-center gap-2">
           <span>全部纳管项目列表</span>
@@ -299,7 +299,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredProjects.map((p) => {
-            const isError = p.status === 'Stopped';
+            const isError = p.status === '已停止';
             const isSpotlight = p.name === spotlightProjectName;
 
             return (
@@ -342,7 +342,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 </div>
 
                 <div className="flex items-center justify-between pt-1 text-xs">
-                  <span className="text-slate-400 text-[11px]">更新时间: {p.updatedAt}</span>
+                  <span className="text-slate-400 text-[11px]">更新时间：{p.updatedAt}</span>
                   <div className="flex items-center gap-2">
                     {isError ? (
                       <button

@@ -51,12 +51,12 @@ export const ServersView: React.FC<ServersViewProps> = ({
 
   const handleExportList = () => {
     const csvContent = "data:text/csv;charset=utf-8," + 
-      "Name,Role,IP,Port,OS,CPU,Memory,Disk\n" + 
+      "节点名称,集群角色,内网地址,端口,操作系统,处理器,内存,磁盘\n" + 
       servers.map(s => `"${s.name}","${s.role}","${s.internalIp}",${s.port},"${s.os}",${s.cpuLoad}%,${s.memoryPercent}%,${s.storagePercent}%`).join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "opspilot_cluster_nodes.csv");
+    link.setAttribute("download", "集群节点清单.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -64,7 +64,7 @@ export const ServersView: React.FC<ServersViewProps> = ({
 
   return (
     <div id="servers-view" className="space-y-6">
-      {/* Title & Actions Bar */}
+      {/* 标题与操作栏 */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
@@ -73,7 +73,7 @@ export const ServersView: React.FC<ServersViewProps> = ({
             <span className="text-cyan-400 font-bold">拓扑监控</span>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight mt-1 flex items-center gap-2">
-            <span>服务器管理 · Node Clusters</span>
+            <span>服务器管理 · 集群节点编排</span>
           </h1>
         </div>
 
@@ -107,7 +107,7 @@ export const ServersView: React.FC<ServersViewProps> = ({
         </div>
       </div>
 
-      {/* Cluster Metrics Row */}
+      {/* 集群概览指标 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-4 shadow-sm">
           <div className="text-xs text-slate-400 font-medium">在线节点</div>
@@ -140,12 +140,12 @@ export const ServersView: React.FC<ServersViewProps> = ({
           <div className="text-xs text-slate-400 font-medium">承载容器总数</div>
           <div className="mt-1 flex items-baseline gap-2">
             <span className="text-2xl font-extrabold text-white">10 个容器</span>
-            <span className="text-xs text-emerald-400 font-medium">Active Pods</span>
+            <span className="text-xs text-emerald-400 font-medium">运行中容器组</span>
           </div>
         </div>
       </div>
 
-      {/* Server Node Cards List */}
+      {/* 节点卡片列表 */}
       <div className="space-y-4">
         {servers.map((node) => {
           const isProbeLoading = probing[node.id];
@@ -156,7 +156,7 @@ export const ServersView: React.FC<ServersViewProps> = ({
               key={node.id}
               className="bg-[#0e1626] border border-slate-800 rounded-xl p-5 space-y-5 hover:border-slate-700 transition-all shadow-sm"
             >
-              {/* Header Info */}
+              {/* 节点头部信息 */}
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
                 <div className="flex items-start sm:items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center text-cyan-400 shrink-0">
@@ -167,7 +167,7 @@ export const ServersView: React.FC<ServersViewProps> = ({
                       <span className="text-lg font-bold text-white tracking-tight">{node.name}</span>
                       <span className="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                        ONLINE
+                        在线
                       </span>
                       <span className="px-2 py-0.5 rounded text-[11px] bg-slate-800 text-slate-300 font-medium border border-slate-700">
                         {node.role} {node.isDefault && '(默认)'}
@@ -178,12 +178,12 @@ export const ServersView: React.FC<ServersViewProps> = ({
                       <span>内网: <strong className="text-slate-200">{node.internalIp}:{node.port}</strong></span>
                       {node.publicIp && <span>| 公网: <strong className="text-cyan-400">{node.publicIp}</strong></span>}
                       <span>| 系统架构: <span className="text-slate-300">{node.os}</span></span>
-                      <span>| 引擎: <span className="text-emerald-400">{node.dockerVersion}</span></span>
+                      <span>| 引擎：<span className="text-emerald-400">{node.dockerVersion}</span></span>
                     </div>
                   </div>
                 </div>
 
-                {/* Status Indicator */}
+                {/* 探活状态与节点标识 */}
                 <div className="flex items-center gap-2 self-start lg:self-center">
                   {isProbeDone && (
                     <span className="text-xs text-emerald-400 font-mono flex items-center gap-1 animate-in fade-in">
@@ -191,14 +191,14 @@ export const ServersView: React.FC<ServersViewProps> = ({
                     </span>
                   )}
                   <span className="text-xs font-mono text-slate-400 bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
-                    UUID: {node.hostUuid}
+                    节点标识：{node.hostUuid}
                   </span>
                 </div>
               </div>
 
-              {/* Resource Utilization Meters (3 Columns) */}
+              {/* 资源占用仪表（三列） */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                {/* CPU */}
+                {/* 处理器 */}
                 <div className="bg-[#090e1a] border border-slate-800/80 rounded-lg p-3 space-y-1.5">
                   <div className="flex justify-between items-center text-slate-400">
                     <span className="flex items-center gap-1.5 font-medium">
@@ -215,7 +215,7 @@ export const ServersView: React.FC<ServersViewProps> = ({
                   </div>
                 </div>
 
-                {/* Memory */}
+                {/* 内存 */}
                 <div className="bg-[#090e1a] border border-slate-800/80 rounded-lg p-3 space-y-1.5">
                   <div className="flex justify-between items-center text-slate-400">
                     <span className="flex items-center gap-1.5 font-medium">
@@ -232,7 +232,7 @@ export const ServersView: React.FC<ServersViewProps> = ({
                   </div>
                 </div>
 
-                {/* Storage */}
+                {/* 磁盘 */}
                 <div className="bg-[#090e1a] border border-slate-800/80 rounded-lg p-3 space-y-1.5">
                   <div className="flex justify-between items-center text-slate-400">
                     <span className="flex items-center gap-1.5 font-medium">
@@ -250,12 +250,12 @@ export const ServersView: React.FC<ServersViewProps> = ({
                 </div>
               </div>
 
-              {/* Running Containers List */}
+              {/* 承载容器列表 */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs pt-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-slate-400 font-medium">承载容器 ({node.containers.length}):</span>
                   {node.containers.map(c => {
-                    const isError = c === 'Order-System';
+                    const isError = c === '订单系统';
                     return (
                       <span 
                         key={c}
@@ -272,14 +272,14 @@ export const ServersView: React.FC<ServersViewProps> = ({
                   })}
                 </div>
 
-                {/* Actions */}
+                {/* 操作按钮组 */}
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     onClick={() => onOpenTerminal(node.name)}
                     className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#0f172a] hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs font-medium transition-colors cursor-pointer"
                   >
                     <Terminal className="w-3 h-3 text-cyan-400" />
-                    <span>Web SSH 终端</span>
+                    <span>网页终端</span>
                   </button>
 
                   <button

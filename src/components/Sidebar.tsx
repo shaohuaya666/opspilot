@@ -34,7 +34,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, onOpe
   return (
     <aside id="sidebar-nav" className="w-64 bg-[#080d1a] border-r border-slate-800/80 flex flex-col justify-between shrink-0 select-none h-screen sticky top-0">
       <div>
-        {/* Brand Header */}
+        {/* 品牌标识区 */}
         <div className="p-5 flex items-center gap-3 border-b border-slate-800/60">
           <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 ring-1 ring-cyan-400/30">
             <Cpu className="w-5 h-5 text-slate-950 stroke-[2.2]" />
@@ -44,12 +44,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, onOpe
               <span className="font-bold text-lg tracking-tight text-white">OpsPilot</span>
             </div>
             <div className="text-[10px] tracking-wider uppercase font-mono font-semibold text-cyan-400/90 -mt-0.5">
-              DevOps Core
+              运维编排中台
             </div>
           </div>
         </div>
 
-        {/* Navigation Items */}
+        {/* 导航菜单 */}
         <nav className="p-3 space-y-1 mt-2">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -73,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, onOpe
         </nav>
       </div>
 
-      {/* Footer System Status */}
+      {/* 底部系统状态 */}
       <div className="p-4 border-t border-slate-800/60 bg-[#060a14]/60">
         <div className="flex items-center justify-between text-xs mb-1.5">
           <div className="flex items-center gap-2">
@@ -81,14 +81,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, onOpe
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span className="text-slate-300 font-medium text-[13px]">Engine Running</span>
+            <span className="text-slate-300 font-medium text-[13px]">编排引擎运行中</span>
           </div>
           <button 
             onClick={onOpenQuickDocs}
             className="text-slate-400 hover:text-cyan-400 text-xs transition-colors flex items-center gap-1 cursor-pointer"
           >
             <HelpCircle className="w-3 h-3" />
-            Quick Docs
+            快速指引
           </button>
         </div>
         <div className="text-[11px] font-mono text-slate-400">

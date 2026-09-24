@@ -9,11 +9,11 @@ interface ContainersViewProps {
 
 export const ContainersView: React.FC<ContainersViewProps> = ({ onOpenTerminal }) => {
   const [containers, setContainers] = useState<ContainerInfo[]>(initialContainers);
-  const [filterNode, setFilterNode] = useState('ALL');
+  const [filterNode, setFilterNode] = useState('全部');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filtered = containers.filter(c => {
-    if (filterNode !== 'ALL' && c.node !== filterNode) return false;
+    if (filterNode !== '全部' && c.node !== filterNode) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       return (
@@ -29,11 +29,11 @@ export const ContainersView: React.FC<ContainersViewProps> = ({ onOpenTerminal }
   const handleToggleState = (id: string) => {
     setContainers(prev => prev.map(c => {
       if (c.id === id) {
-        const isUp = c.status === 'Up';
+        const isUp = c.status === '运行中';
         return {
           ...c,
-          status: isUp ? 'Exited' : 'Up',
-          uptime: isUp ? '刚刚停止' : '刚刚启动 (Up 5s)',
+          status: isUp ? '已停止' : '运行中',
+          uptime: isUp ? '刚刚停止' : '刚刚启动（已运行 5 秒）',
           cpu: isUp ? '0.0%' : '0.8%',
           memory: isUp ? '0 MB' : '120 MB'
         };
@@ -44,16 +44,16 @@ export const ContainersView: React.FC<ContainersViewProps> = ({ onOpenTerminal }
 
   return (
     <div id="containers-view" className="space-y-6">
-      {/* Header */}
+      {/* 页面标题区 */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
             <span>容器编排与运行时</span>
             <span>/</span>
-            <span className="text-cyan-400 font-bold">Docker Pods</span>
+            <span className="text-cyan-400 font-bold">容器实例</span>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight mt-1">
-            容器管理 · Docker Container Mesh
+            容器管理 · 容器运行网格
           </h1>
           <p className="text-xs text-slate-400 mt-0.5">
             跨节点统一监控容器健康探针、端口路由、资源占用及生命周期调度
@@ -62,7 +62,7 @@ export const ContainersView: React.FC<ContainersViewProps> = ({ onOpenTerminal }
 
         <div className="flex items-center gap-2.5">
           <button
-            onClick={() => alert('已刷新全部宿主机 Docker 容器状态')}
+            onClick={() => alert('已刷新全部宿主机上的容器运行状态')}
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#0f172a] hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-medium transition-colors cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
@@ -71,11 +71,11 @@ export const ContainersView: React.FC<ContainersViewProps> = ({ onOpenTerminal }
         </div>
       </div>
 
-      {/* Filter Bar */}
+      {/* 筛选栏 */}
       <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-3 flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-slate-400 font-medium">所属节点:</span>
-          {['ALL', 'Production-Server', 'Dev-Server', 'Test-Server'].map(node => (
+          {['全部', '生产服务器', '开发服务器', '测试服务器'].map(node => (
             <button
               key={node}
               onClick={() => setFilterNode(node)}
@@ -85,7 +85,7 @@ export const ContainersView: React.FC<ContainersViewProps> = ({ onOpenTerminal }
                   : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
               }`}
             >
-              {node === 'ALL' ? '全部节点' : node}
+              {node === '全部' ? '全部节点' : node}
             </button>
           ))}
         </div>
@@ -102,7 +102,7 @@ export const ContainersView: React.FC<ContainersViewProps> = ({ onOpenTerminal }
         </div>
       </div>
 
-      {/* Containers Table */}
+      {/* 容器列表表格 */}
       <div className="bg-[#0e1626] border border-slate-800 rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
@@ -119,7 +119,7 @@ export const ContainersView: React.FC<ContainersViewProps> = ({ onOpenTerminal }
             </thead>
             <tbody className="divide-y divide-slate-800/70">
               {filtered.map((c) => {
-                const isUp = c.status === 'Up';
+                const isUp = c.status === '运行中';
 
                 return (
                   <tr key={c.id} className="hover:bg-slate-800/40 transition-colors">
@@ -154,8 +154,8 @@ export const ContainersView: React.FC<ContainersViewProps> = ({ onOpenTerminal }
                     </td>
 
                     <td className="px-4 py-3.5 font-mono text-slate-300">
-                      <div>CPU: {c.cpu}</div>
-                      <div className="text-[11px] text-slate-400">RAM: {c.memory}</div>
+                      <div>处理器：{c.cpu}</div>
+                      <div className="text-[11px] text-slate-400">内存：{c.memory}</div>
                     </td>
 
                     <td className="px-4 py-3.5 text-right space-x-2">

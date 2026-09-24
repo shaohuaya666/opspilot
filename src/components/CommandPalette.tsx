@@ -38,14 +38,14 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   if (!isOpen) return null;
 
   const items = [
-    { id: '1', title: 'Blog-System', type: 'Project', desc: '.NET 8 / ASP.NET Core Web API (Production)', icon: FolderGit2, action: () => { onNavigate('projects'); onSelectProject?.('Blog-System'); onClose(); } },
-    { id: '2', title: 'Order-System [异常告警]', type: 'Project', desc: 'Java 21 / SpringBoot 3 - 容器死锁退出', icon: FolderGit2, action: () => { onNavigate('projects'); onSelectProject?.('Order-System'); onClose(); } },
-    { id: '3', title: 'Production-Server', type: 'Node', desc: '192.168.1.120 (Ubuntu 22.04 LTS)', icon: Server, action: () => { onNavigate('servers'); onClose(); } },
-    { id: '4', title: 'Dev-Server', type: 'Node', desc: '192.168.1.121 (Debian 12 Bookworm)', icon: Server, action: () => { onNavigate('servers'); onClose(); } },
-    { id: '5', title: '查看部署任务 #10024', type: 'Deployment', desc: 'Blog-System 流水线实时日志与DAG拓扑', icon: Rocket, action: () => { onNavigate('deployments'); onClose(); } },
-    { id: '6', title: '确认回滚服务版本 (Rollback)', type: 'Action', desc: '回滚 Order-System 或 Blog-System 至稳定历史镜像', icon: GitBranch, action: () => { onTriggerRollback?.(); onClose(); } },
-    { id: '7', title: '打开 Web SSH 终端', type: 'Console', desc: '直接连入宿主机 Production-Server 执行命令行', icon: Terminal, action: () => { onOpenTerminal?.(); onClose(); } },
-    { id: '8', title: '查看容器管理', type: 'Container', desc: '查看全部 10 个跨节点容器运行指标', icon: Box, action: () => { onNavigate('containers'); onClose(); } },
+    { id: '1', title: '博客系统', type: '工程', desc: '.NET 8 / ASP.NET Core Web API（生产环境）', icon: FolderGit2, action: () => { onNavigate('projects'); onSelectProject?.('博客系统'); onClose(); } },
+    { id: '2', title: '订单系统 [异常告警]', type: '工程', desc: 'Java 21 / SpringBoot 3 - 容器死锁退出', icon: FolderGit2, action: () => { onNavigate('projects'); onSelectProject?.('订单系统'); onClose(); } },
+    { id: '3', title: '生产服务器', type: '节点', desc: '192.168.1.120（Ubuntu 22.04 LTS）', icon: Server, action: () => { onNavigate('servers'); onClose(); } },
+    { id: '4', title: '开发服务器', type: '节点', desc: '192.168.1.121（Debian 12 Bookworm）', icon: Server, action: () => { onNavigate('servers'); onClose(); } },
+    { id: '5', title: '查看部署任务 #10024', type: '部署', desc: '博客系统 流水线实时日志与阶段拓扑', icon: Rocket, action: () => { onNavigate('deployments'); onClose(); } },
+    { id: '6', title: '确认回滚服务版本', type: '操作', desc: '将 订单系统 或 博客系统 回滚至稳定历史镜像', icon: GitBranch, action: () => { onTriggerRollback?.(); onClose(); } },
+    { id: '7', title: '打开网页终端', type: '控制台', desc: '直接连入宿主机 生产服务器 执行命令行', icon: Terminal, action: () => { onOpenTerminal?.(); onClose(); } },
+    { id: '8', title: '查看容器管理', type: '容器', desc: '查看全部 10 个跨节点容器运行指标', icon: Box, action: () => { onNavigate('containers'); onClose(); } },
   ];
 
   const filtered = items.filter(i => 
@@ -60,7 +60,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         id="command-palette-modal"
         className="w-full max-w-xl bg-[#0c1322] border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95"
       >
-        {/* Search header */}
+        {/* 搜索输入头部 */}
         <div className="p-3.5 border-b border-slate-800 flex items-center gap-3">
           <Search className="w-5 h-5 text-cyan-400 shrink-0" />
           <input
@@ -75,7 +75,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           <kbd className="px-2 py-0.5 text-[10px] font-mono bg-slate-800 border border-slate-700 text-slate-400 rounded">ESC 退出</kbd>
         </div>
 
-        {/* Results List */}
+        {/* 结果列表 */}
         <div className="p-2 max-h-80 overflow-y-auto space-y-1">
           {filtered.length === 0 ? (
             <div className="py-8 text-center text-xs text-slate-500 font-mono">

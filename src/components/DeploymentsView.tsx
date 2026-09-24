@@ -34,17 +34,17 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
   const [isAutoScroll, setIsAutoScroll] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
-  const [logLevel, setLogLevel] = useState('ALL');
+  const [logLevel, setLogLevel] = useState('全部');
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto scroll effect
+  // 日志自动滚动到底部
   useEffect(() => {
     if (isAutoScroll) {
       terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [logs, isAutoScroll]);
 
-  // Simulated live log generator when pipeline is running
+  // 流水线执行中时模拟实时日志输出
   useEffect(() => {
     if (!isRunning) return;
 
@@ -54,7 +54,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
       
       setLogs(prev => {
         if (prev.length >= 24) {
-          // If reached 24 lines, mark step 9 as completed and step 10 as completed!
+          // 日志累计到 24 行时，将第 9 步及之后的阶段标记为已完成
           setSteps(currSteps => currSteps.map(s => {
             if (s.stepNumber === 9) return { ...s, status: 'completed', duration: '5.2s' };
             if (s.stepNumber === 10) return { ...s, status: 'completed', duration: '0.8s' };
@@ -65,17 +65,17 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
           setIsRunning(false);
           return [
             ...prev,
-            { id: String(prev.length + 1), timestamp: timeStr, level: 'SUCCESS', tag: 'HealthCheck', message: 'HTTP 200 OK received from http://localhost:8080/health (Latency: 12ms)' },
-            { id: String(prev.length + 2), timestamp: timeStr, level: 'INFO', tag: 'Gateway', message: 'Nginx upstream rerouted to container blog-api-prod:8080' },
-            { id: String(prev.length + 3), timestamp: timeStr, level: 'SUCCESS', tag: 'Pipeline', message: 'Pipeline #10024 finished successfully in 49.8s.' }
+            { id: String(prev.length + 1), timestamp: timeStr, level: 'SUCCESS', tag: '健康检查', message: '已收到 http://localhost:8080/health 的 200 正常响应（耗时：12 毫秒）' },
+            { id: String(prev.length + 2), timestamp: timeStr, level: 'INFO', tag: '网关', message: '已将上游流量切换至容器 博客接口-生产:8080' },
+            { id: String(prev.length + 3), timestamp: timeStr, level: 'SUCCESS', tag: '流水线', message: '流水线 #10024 执行成功，总耗时 49.8 秒。' }
           ];
         }
 
         const candidateMsgs = [
-          { level: 'INFO' as const, tag: 'HealthCheck', message: 'Pinging http://localhost:8080/health (Attempt 2/3, latency: 18ms)...' },
-          { level: 'INFO' as const, tag: 'Metrics', message: 'CPU: 14.2%, RSS Memory: 198 MB, Threads: 28' },
-          { level: 'SUCCESS' as const, tag: 'HealthCheck', message: 'Application responded 200 OK! Ready for traffic routing.' },
-          { level: 'INFO' as const, tag: 'Gateway', message: 'Updating reverse proxy routing table...' }
+          { level: 'INFO' as const, tag: '健康检查', message: '正在探活 http://localhost:8080/health（第 2/3 次，耗时：18 毫秒）...' },
+          { level: 'INFO' as const, tag: '资源指标', message: '处理器：14.2%，常驻内存：198 MB，线程数：28' },
+          { level: 'SUCCESS' as const, tag: '健康检查', message: '应用已返回 200 正常响应，可以接入流量。' },
+          { level: 'INFO' as const, tag: '网关', message: '正在更新反向代理路由表...' }
         ];
 
         const nextMsg = candidateMsgs[(prev.length - 18) % candidateMsgs.length];
@@ -102,7 +102,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'opspilot-deployment-10024.log';
+    a.download = '部署日志-10024.log';
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -111,17 +111,17 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
     setIsRunning(false);
     setLogs(prev => [
       ...prev,
-      { id: String(Date.now()), timestamp: '10:32:48.000', level: 'WARN', tag: 'Abort', message: 'Deployment #10024 aborted by cluster root administrator.' }
+      { id: String(Date.now()), timestamp: '10:32:48.000', level: 'WARN', tag: '中断', message: '部署任务 #10024 已被集群管理员手动终止。' }
     ]);
   };
 
-  const filteredLogs = logLevel === 'ALL' 
+  const filteredLogs = logLevel === '全部' 
     ? logs 
     : logs.filter(l => l.level === logLevel);
 
   return (
     <div id="deployments-view" className="space-y-6">
-      {/* Top Breadcrumb & Status Bar */}
+      {/* 顶部面包屑与连接状态栏 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
         <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
           <span>部署中心</span>
@@ -138,43 +138,43 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
             <span>SignalR WebSocket 已联通</span>
           </div>
           <span className="text-slate-500">|</span>
-          <span className="text-slate-400">节点延迟: 14ms</span>
+          <span className="text-slate-400">节点延迟：14 毫秒</span>
         </div>
       </div>
 
-      {/* Main Title & Action Bar */}
+      {/* 主标题与操作栏 */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 flex-wrap">
             <h1 className="text-2xl font-bold text-white tracking-tight">
-              Blog-System 自动化部署流水线
+              博客系统 自动化部署流水线
             </h1>
             <span className={`px-2.5 py-1 rounded-full text-xs font-mono font-semibold flex items-center gap-1.5 ${
               isRunning ? 'bg-cyan-950/60 border border-cyan-500/40 text-cyan-300' : 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
             }`}>
               <span className={`w-2 h-2 rounded-full ${isRunning ? 'bg-cyan-400 animate-pulse' : 'bg-emerald-400'}`}></span>
-              <span>{isRunning ? '执行中 · IN PROGRESS | 阶段 9/12' : '已完成 · COMPLETED | 12/12'}</span>
+              <span>{isRunning ? '执行中 · 阶段 9/12' : '已完成 · 12/12'}</span>
             </span>
           </div>
 
           <div className="mt-2 flex items-center gap-4 text-xs text-slate-400 flex-wrap font-sans">
             <span className="flex items-center gap-1">
               <span className="text-slate-500">触发者:</span>
-              <span className="text-slate-200">管理员 (admin)</span>
+              <span className="text-slate-200">管理员</span>
             </span>
             <span className="text-slate-600">·</span>
             <span className="flex items-center gap-1">
               <span className="text-slate-500">目标主机:</span>
-              <span className="text-cyan-400 font-mono">Production-Server (192.168.1.120)</span>
+              <span className="text-cyan-400 font-mono">生产服务器 (192.168.1.120)</span>
             </span>
             <span className="text-slate-600">·</span>
             <span className="flex items-center gap-1">
-              <span className="text-slate-500">分支:</span>
-              <span className="font-mono text-slate-200">main</span>
+              <span className="text-slate-500">分支：</span>
+              <span className="font-mono text-slate-200">主干</span>
             </span>
             <span className="text-slate-600">·</span>
             <span className="flex items-center gap-1">
-              <span className="text-slate-500">Commit:</span>
+              <span className="text-slate-500">提交号：</span>
               <span className="font-mono text-cyan-400 underline decoration-dotted">8a72f31</span>
             </span>
             <span className="text-slate-600">·</span>
@@ -190,7 +190,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
           </div>
         </div>
 
-        {/* Action Controls */}
+        {/* 操作按钮组 */}
         <div className="flex items-center gap-2 flex-wrap">
           {isRunning && (
             <button
@@ -233,7 +233,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
         </div>
       </div>
 
-      {/* DAG Pipeline Progress Topology Card */}
+      {/* 流水线阶段进度拓扑卡片 */}
       <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-5 space-y-4 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
           <div className="flex items-center gap-2">
@@ -258,7 +258,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
           </div>
         </div>
 
-        {/* Steps Flow (Horizontal scrollable DAG) */}
+        {/* 阶段流程（可横向滚动） */}
         <div className="overflow-x-auto py-2">
           <div className="flex items-center min-w-max gap-3">
             {steps.map((st, idx) => {
@@ -267,9 +267,9 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
 
               return (
                 <div key={st.stepNumber} className="flex items-center">
-                  {/* Step Box */}
+                  {/* 阶段节点块 */}
                   <div className="flex flex-col items-center text-center w-28">
-                    {/* Circle Node */}
+                    {/* 圆形状态节点 */}
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
                       isDone 
                         ? 'bg-emerald-950/80 border border-emerald-500/60 text-emerald-400' 
@@ -286,7 +286,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
                       )}
                     </div>
 
-                    {/* Step Title & Duration */}
+                    {/* 阶段名称与耗时 */}
                     <div className="mt-2">
                       <div className={`text-xs font-medium leading-snug ${
                         isDone ? 'text-slate-200' : isCurrent ? 'text-cyan-300 font-bold' : 'text-slate-400'
@@ -301,7 +301,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
                     </div>
                   </div>
 
-                  {/* Connector Line */}
+                  {/* 节点连接线 */}
                   {idx < steps.length - 1 && (
                     <div className={`w-8 h-[2px] mb-6 ${
                       steps[idx + 1].status === 'completed' || isDone
@@ -318,11 +318,11 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
         </div>
       </div>
 
-      {/* Main Grid: Left Bash Console (2/3) + Right Config Spec (1/3) */}
+      {/* 主体栅格：左侧命令行控制台 + 右侧部署参数规格 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Live Terminal Console */}
+        {/* 左栏：实时终端控制台 */}
         <div className="lg:col-span-2 bg-[#070b14] border border-slate-800 rounded-xl overflow-hidden flex flex-col h-[520px] shadow-lg">
-          {/* Terminal Window Bar */}
+          {/* 终端窗口标题栏 */}
           <div className="bg-[#0e1626] px-4 py-2.5 border-b border-slate-800 flex items-center justify-between select-none">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
@@ -332,29 +332,29 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
               </div>
               <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
                 <TerminalIcon className="w-3.5 h-3.5 text-cyan-400" />
-                <span>bash - opspilot-runner [PID: 4921]</span>
+                <span>命令行 - 部署执行器 [进程号：4921]</span>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1 text-[11px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
-                <span>日志级别:</span>
+                <span>日志级别：</span>
                 <select 
                   value={logLevel}
                   onChange={(e) => setLogLevel(e.target.value)}
                   className="bg-transparent text-cyan-400 outline-none cursor-pointer"
                 >
-                  <option value="ALL">ALL</option>
-                  <option value="INFO">INFO</option>
-                  <option value="SUCCESS">SUCCESS</option>
-                  <option value="BUILD">BUILD</option>
-                  <option value="RUNNING">RUNNING</option>
+                  <option value="全部">全部级别</option>
+                  <option value="INFO">信息</option>
+                  <option value="SUCCESS">成功</option>
+                  <option value="BUILD">构建</option>
+                  <option value="RUNNING">运行中</option>
                 </select>
               </div>
             </div>
           </div>
 
-          {/* Terminal Logs Output */}
+          {/* 终端日志输出区 */}
           <div className="flex-1 p-4 font-mono text-xs overflow-y-auto space-y-1 bg-[#050811] text-slate-200">
             {filteredLogs.map((log) => {
               let levelColor = 'text-cyan-400';
@@ -384,23 +384,23 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
             <div ref={terminalEndRef} />
           </div>
 
-          {/* Terminal Status Bar */}
+          {/* 终端底部状态栏 */}
           <div className="bg-[#0a0f1c] px-4 py-2 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400 select-none">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
               <span className="text-slate-300">SignalR 实时连接正常</span>
             </div>
             <div className="flex items-center gap-3">
-              <span>行数: {logs.length} lines</span>
-              <span>编码: UTF-8</span>
+              <span>行数：{logs.length} 行</span>
+              <span>编码：UTF-8</span>
               <span className="hidden sm:inline text-slate-400">脱敏策略已生效 (敏感凭据已过滤)</span>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Quick Scheduler & Deployment Parameters Spec */}
+        {/* 右栏：快捷调度与部署参数规格 */}
         <div className="space-y-4">
-          {/* Quick Scheduler Card */}
+          {/* 快捷调度卡片 */}
           <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-4.5 flex items-center justify-between shadow-sm">
             <div>
               <div className="text-xs font-bold text-white">部署快捷调度</div>
@@ -415,30 +415,30 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
             </button>
           </div>
 
-          {/* Parameters Spec Card (SPEC ID #10024) */}
+          {/* 参数规格卡片（配置编号 #10024） */}
           <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-4.5 space-y-3.5 shadow-sm text-xs">
             <div className="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-cyan-400" />
                 <span className="font-bold text-white">部署参数配置回顾</span>
               </div>
-              <span className="text-[11px] font-mono text-slate-400 font-semibold">SPEC ID #10024</span>
+              <span className="text-[11px] font-mono text-slate-400 font-semibold">配置编号 #10024</span>
             </div>
 
             <div className="space-y-2 text-slate-300">
               <div className="flex justify-between">
                 <span className="text-slate-400">目标工程:</span>
-                <span className="font-bold text-white">Blog-System (.NET 8.0)</span>
+                <span className="font-bold text-white">博客系统（.NET 8.0）</span>
               </div>
 
               <div className="flex justify-between">
                 <span className="text-slate-400">目标集群 / 节点:</span>
-                <span className="font-mono text-cyan-400">Production-Server (Node-01)</span>
+                <span className="font-mono text-cyan-400">生产服务器（节点 01）</span>
               </div>
 
               <div className="flex justify-between">
                 <span className="text-slate-400">仓库代码分支:</span>
-                <span className="font-mono text-slate-200">main @ 8a72f31</span>
+                <span className="font-mono text-slate-200">主干 @ 8a72f31</span>
               </div>
 
               <div className="flex justify-between">
@@ -452,7 +452,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
                 <span className="text-slate-400">部署发布策略:</span>
                 <span className="flex items-center gap-1 text-slate-200">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                  停机热替 (Recreate)
+                  停机热替
                 </span>
               </div>
 
@@ -462,7 +462,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
               </div>
             </div>
 
-            {/* Injected Env Vars */}
+            {/* 注入的环境变量 */}
             <div className="pt-2 border-t border-slate-800/80 space-y-2">
               <div className="flex items-center justify-between text-[11px]">
                 <span className="text-slate-400 font-medium">注入环境变量 (4 项)</span>
@@ -472,7 +472,7 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
               <div className="bg-[#080d17] border border-slate-800 rounded-lg p-2.5 space-y-1 font-mono text-[11px]">
                 <div className="flex justify-between">
                   <span className="text-slate-400">ASPNETCORE_ENVIRONMENT</span>
-                  <span className="text-slate-200">Production</span>
+                  <span className="text-slate-200">生产</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">REDIS_HOST</span>
@@ -480,20 +480,20 @@ export const DeploymentsView: React.FC<DeploymentsViewProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">DB_CONNECTION_STRING</span>
-                  <span className="text-cyan-400">************ (Encrypted)</span>
+                  <span className="text-cyan-400">************（已加密）</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">LOG_LEVEL</span>
-                  <span className="text-slate-200">Information</span>
+                  <span className="text-slate-200">信息</span>
                 </div>
               </div>
             </div>
 
-            {/* Host Load Status */}
+            {/* 宿主机实时负载 */}
             <div className="pt-2 border-t border-slate-800/80 space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-400">目标宿主机实时负载 (Production)</span>
-                <span className="text-emerald-400 font-medium text-[11px]">健康 (Normal)</span>
+                <span className="text-slate-400">目标宿主机实时负载（生产环境）</span>
+                <span className="text-emerald-400 font-medium text-[11px]">健康</span>
               </div>
               <div className="grid grid-cols-2 gap-2 text-[11px]">
                 <div>

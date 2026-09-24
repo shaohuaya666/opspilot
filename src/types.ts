@@ -8,9 +8,11 @@ export type NavTab =
   | 'logs' 
   | 'settings';
 
-export type Environment = 'Production' | 'Dev' | 'Test';
+/** 运行环境：生产环境 / 开发环境 / 测试环境 */
+export type Environment = '生产环境' | '开发环境' | '测试环境';
 
-export type ServiceStatus = 'Running' | 'Stopped' | 'Warning' | 'Building' | 'Deploying';
+/** 服务运行状态：运行中 / 已停止 / 告警 / 构建中 / 部署中 */
+export type ServiceStatus = '运行中' | '已停止' | '告警' | '构建中' | '部署中';
 
 export interface Project {
   id: string;
@@ -51,7 +53,7 @@ export interface ServerNode {
   name: string;
   role: '核心生产节点' | '开发测试' | '预发布环境';
   isDefault?: boolean;
-  status: 'ONLINE' | 'OFFLINE' | 'WARNING';
+  status: '在线' | '离线' | '告警';
   internalIp: string;
   publicIp?: string;
   port: number;
@@ -120,7 +122,7 @@ export interface ContainerInfo {
   name: string;
   image: string;
   node: string;
-  status: 'Up' | 'Exited' | 'Restarting';
+  status: '运行中' | '已停止' | '重启中';
   ports: string;
   cpu: string;
   memory: string;

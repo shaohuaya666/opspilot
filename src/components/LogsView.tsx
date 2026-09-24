@@ -4,14 +4,14 @@ import { initialLogs } from '../data/mockData';
 
 export const LogsView: React.FC = () => {
   const [logs, setLogs] = useState(initialLogs);
-  const [selectedService, setSelectedService] = useState('ALL');
-  const [selectedLevel, setSelectedLevel] = useState('ALL');
+  const [selectedService, setSelectedService] = useState('全部');
+  const [selectedLevel, setSelectedLevel] = useState('全部');
   const [keyword, setKeyword] = useState('');
   const [isPaused, setIsPaused] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
   const filteredLogs = logs.filter(l => {
-    if (selectedLevel !== 'ALL' && l.level !== selectedLevel) return false;
+    if (selectedLevel !== '全部' && l.level !== selectedLevel) return false;
     if (keyword) {
       const q = keyword.toLowerCase();
       return (
@@ -36,14 +36,14 @@ export const LogsView: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `opspilot-logs-${Date.now()}.log`;
+    a.download = `运维日志-${Date.now()}.log`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   return (
     <div id="logs-view" className="space-y-6">
-      {/* Header */}
+      {/* 页面标题区 */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
@@ -52,7 +52,7 @@ export const LogsView: React.FC = () => {
             <span className="text-cyan-400 font-bold">统一日志中心</span>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight mt-1">
-            日志中心 · Unified Audit Logs
+            日志中心 · 统一审计日志
           </h1>
           <p className="text-xs text-slate-400 mt-0.5">
             聚合构建日志、容器标准输出、SSH 审计流水与系统运行告警
@@ -90,7 +90,7 @@ export const LogsView: React.FC = () => {
         </div>
       </div>
 
-      {/* Filter Toolbar */}
+      {/* 筛选工具栏 */}
       <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-3 flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-3 w-full md:w-auto flex-wrap">
           <div className="flex items-center gap-2">
@@ -100,11 +100,11 @@ export const LogsView: React.FC = () => {
               onChange={(e) => setSelectedService(e.target.value)}
               className="bg-[#080d17] border border-slate-700 rounded-lg px-2.5 py-1.5 text-white outline-none focus:border-cyan-500 font-medium"
             >
-              <option value="ALL">全部微服务</option>
-              <option value="Blog-System">Blog-System</option>
-              <option value="Order-System">Order-System</option>
-              <option value="File-Service">File-Service</option>
-              <option value="User-Service">User-Service</option>
+              <option value="全部">全部微服务</option>
+              <option value="博客系统">博客系统</option>
+              <option value="订单系统">订单系统</option>
+              <option value="文件服务">文件服务</option>
+              <option value="用户服务">用户服务</option>
             </select>
           </div>
 
@@ -115,12 +115,12 @@ export const LogsView: React.FC = () => {
               onChange={(e) => setSelectedLevel(e.target.value)}
               className="bg-[#080d17] border border-slate-700 rounded-lg px-2.5 py-1.5 text-white outline-none focus:border-cyan-500 font-medium"
             >
-              <option value="ALL">全部级别 (ALL)</option>
-              <option value="INFO">INFO (信息)</option>
-              <option value="SUCCESS">SUCCESS (成功)</option>
-              <option value="BUILD">BUILD (构建)</option>
-              <option value="WARN">WARN (警告)</option>
-              <option value="ERROR">ERROR (错误)</option>
+              <option value="全部">全部级别</option>
+              <option value="INFO">信息</option>
+              <option value="SUCCESS">成功</option>
+              <option value="BUILD">构建</option>
+              <option value="WARN">警告</option>
+              <option value="ERROR">错误</option>
             </select>
           </div>
         </div>
@@ -137,14 +137,14 @@ export const LogsView: React.FC = () => {
         </div>
       </div>
 
-      {/* Terminal Display */}
+      {/* 日志展示终端 */}
       <div className="bg-[#070b14] border border-slate-800 rounded-xl overflow-hidden flex flex-col h-[520px] shadow-lg font-mono text-xs">
         <div className="bg-[#0e1626] px-4 py-2 border-b border-slate-800 flex items-center justify-between text-slate-400 text-[11px]">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span className="text-slate-200">实时聚合管道 (stdout / stderr)</span>
+            <span className="text-slate-200">实时聚合管道（标准输出 / 错误输出）</span>
           </div>
-          <div>匹配行数: {filteredLogs.length}</div>
+          <div>匹配行数：{filteredLogs.length}</div>
         </div>
 
         <div className="flex-1 p-4 overflow-y-auto space-y-1.5 bg-[#050811] text-slate-200">

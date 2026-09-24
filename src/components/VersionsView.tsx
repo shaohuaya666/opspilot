@@ -28,13 +28,13 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
   onTriggerRollback,
   onOpenNewDeployModal
 }) => {
-  const [selectedProject, setSelectedProject] = useState('ALL');
-  const [selectedEnv, setSelectedEnv] = useState('ALL');
+  const [selectedProject, setSelectedProject] = useState('全部');
+  const [selectedEnv, setSelectedEnv] = useState('全部');
   const [searchTerm, setSearchTerm] = useState('');
 
   const filtered = versions.filter(v => {
-    if (selectedProject !== 'ALL' && v.projectName !== selectedProject) return false;
-    if (selectedEnv !== 'ALL' && v.environment !== selectedEnv) return false;
+    if (selectedProject !== '全部' && v.projectName !== selectedProject) return false;
+    if (selectedEnv !== '全部' && v.environment !== selectedEnv) return false;
     if (searchTerm) {
       const q = searchTerm.toLowerCase();
       return (
@@ -49,7 +49,7 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
 
   return (
     <div id="versions-view" className="space-y-6">
-      {/* Title & Actions Bar */}
+      {/* 标题与操作栏 */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
@@ -58,7 +58,7 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
             <span className="text-cyan-400 font-bold">镜像制品库</span>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight mt-1">
-            版本管理 · Release Artifacts
+            版本管理 · 发布制品库
           </h1>
           <p className="text-xs text-slate-400 mt-0.5">
             跨环境多版本镜像溯源、极速版本回滚与 Docker 仓库镜像归档管理
@@ -76,7 +76,7 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
         </div>
       </div>
 
-      {/* Stats Cards Row */}
+      {/* 统计卡片区 */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-4 shadow-sm">
           <div className="text-xs text-slate-400 font-medium">镜像制品总数</div>
@@ -103,10 +103,10 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
         </div>
       </div>
 
-      {/* Filter Bar */}
+      {/* 筛选栏 */}
       <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-3 flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-3 w-full md:w-auto flex-wrap">
-          {/* Project Filter */}
+          {/* 所属项目筛选 */}
           <div className="flex items-center gap-2">
             <span className="text-slate-400 font-medium">所属项目:</span>
             <select
@@ -114,14 +114,14 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
               onChange={(e) => setSelectedProject(e.target.value)}
               className="bg-[#080d17] border border-slate-700 rounded-lg px-2.5 py-1.5 text-white outline-none focus:border-cyan-500 font-medium"
             >
-              <option value="ALL">全部项目 (All Projects)</option>
+              <option value="全部">全部项目</option>
               {projects.map(p => (
                 <option key={p.id} value={p.name}>{p.name} ({p.techStack})</option>
               ))}
             </select>
           </div>
 
-          {/* Environment Filter */}
+          {/* 运行环境筛选 */}
           <div className="flex items-center gap-2">
             <span className="text-slate-400 font-medium">运行环境:</span>
             <select
@@ -129,20 +129,20 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
               onChange={(e) => setSelectedEnv(e.target.value)}
               className="bg-[#080d17] border border-slate-700 rounded-lg px-2.5 py-1.5 text-white outline-none focus:border-cyan-500 font-medium"
             >
-              <option value="ALL">全部环境</option>
-              <option value="Production">Production (生产)</option>
-              <option value="Dev">Dev (开发)</option>
-              <option value="Test">Test (测试)</option>
+              <option value="全部">全部环境</option>
+              <option value="生产环境">生产环境</option>
+              <option value="开发环境">开发环境</option>
+              <option value="测试环境">测试环境</option>
             </select>
           </div>
         </div>
 
-        {/* Search input */}
+        {/* 搜索输入框 */}
         <div className="relative w-full md:w-64">
           <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
           <input
             type="text"
-            placeholder="搜索版本号、Commit 或说明..."
+            placeholder="搜索版本号、提交号或变更说明..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-[#080d17] border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-white placeholder-slate-500 outline-none focus:border-cyan-500"
@@ -150,7 +150,7 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
         </div>
       </div>
 
-      {/* Versions Table */}
+      {/* 版本制品表格 */}
       <div className="bg-[#0e1626] border border-slate-800 rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
@@ -168,11 +168,11 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
             <tbody className="divide-y divide-slate-800/70">
               {filtered.map((ver) => {
                 const isRunning = ver.isCurrentRunning;
-                const isError = ver.projectName === 'Order-System' && ver.isCurrentRunning;
+                const isError = ver.projectName === '订单系统' && ver.isCurrentRunning;
 
                 return (
                   <tr key={ver.id} className="hover:bg-slate-800/40 transition-colors">
-                    {/* Version & Image Tag */}
+                    {/* 版本号与制品标签 */}
                     <td className="px-4 py-3.5">
                       <div className="font-bold text-white font-mono flex items-center gap-2">
                         <span>{ver.version}</span>
@@ -185,7 +185,7 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
                       </div>
                     </td>
 
-                    {/* Git Commit */}
+                    {/* 关联代码提交 */}
                     <td className="px-4 py-3.5">
                       <div className="font-mono text-cyan-400 font-semibold flex items-center gap-1.5">
                         <GitBranch className="w-3.5 h-3.5" />
@@ -196,45 +196,45 @@ export const VersionsView: React.FC<VersionsViewProps> = ({
                       </div>
                     </td>
 
-                    {/* Build time & author */}
+                    {/* 构建时间与发布人 */}
                     <td className="px-4 py-3.5 font-mono text-slate-300">
                       <div>{ver.buildTime}</div>
-                      <div className="text-[11px] text-slate-400 font-sans">by {ver.author}</div>
+                      <div className="text-[11px] text-slate-400 font-sans">发布人：{ver.author}</div>
                     </td>
 
-                    {/* Image Size */}
+                    {/* 镜像体积 */}
                     <td className="px-4 py-3.5 font-mono text-slate-300">
                       {ver.imageSize}
                     </td>
 
-                    {/* Host & Env */}
+                    {/* 部署环境与宿主机 */}
                     <td className="px-4 py-3.5">
                       <div className="text-slate-200 font-medium">{ver.targetHost}</div>
                       <div className="text-[11px] font-mono text-slate-400">{ver.environment}</div>
                     </td>
 
-                    {/* Status Badge */}
+                    {/* 运行状态徽标 */}
                     <td className="px-4 py-3.5">
                       {isRunning ? (
                         isError ? (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-red-950/60 border border-red-600/40 text-red-400">
                             <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span>
-                            异常挂起 (Exited)
+                            异常挂起
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-950/60 border border-emerald-600/40 text-emerald-400">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            当前运行中 (Active)
+                            当前运行中
                           </span>
                         )
                       ) : (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-slate-800 text-slate-400 border border-slate-700">
-                          历史版本 (Archived)
+                          历史版本
                         </span>
                       )}
                     </td>
 
-                    {/* Actions */}
+                    {/* 操作按钮 */}
                     <td className="px-4 py-3.5 text-right space-x-2">
                       {!isRunning ? (
                         <button

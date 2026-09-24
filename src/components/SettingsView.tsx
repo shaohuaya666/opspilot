@@ -4,7 +4,7 @@ import { Settings, Shield, Bell, Key, Database, Save, Check } from 'lucide-react
 export const SettingsView: React.FC = () => {
   const [registryUrl, setRegistryUrl] = useState('registry.local');
   const [registryUser, setRegistryUser] = useState('opspilot_admin');
-  const [gitProvider, setGitProvider] = useState('GitLab Internal');
+  const [gitProvider, setGitProvider] = useState('内部代码仓库');
   const [webhookUrl, setWebhookUrl] = useState('https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxxx-xxxx');
   const [autoRollback, setAutoRollback] = useState(true);
   const [saved, setSaved] = useState(false);
@@ -17,7 +17,7 @@ export const SettingsView: React.FC = () => {
 
   return (
     <div id="settings-view" className="space-y-6 max-w-4xl">
-      {/* Header */}
+      {/* 页面标题区 */}
       <div>
         <div className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
           <span>集群基础设施</span>
@@ -25,7 +25,7 @@ export const SettingsView: React.FC = () => {
           <span className="text-cyan-400 font-bold">系统设置</span>
         </div>
         <h1 className="text-2xl font-bold text-white tracking-tight mt-1">
-          系统设置 · Global Configuration
+          系统设置 · 全局配置中心
         </h1>
         <p className="text-xs text-slate-400 mt-0.5">
           配置 Docker 镜像仓库鉴权、Git 持续集成触发器、告警推送渠道及自动化回滚策略
@@ -33,7 +33,7 @@ export const SettingsView: React.FC = () => {
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
-        {/* Card 1: Docker 镜像仓库配置 */}
+        {/* 卡片一：镜像仓库配置 */}
         <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-5 space-y-4 shadow-sm text-xs">
           <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
             <Database className="w-4 h-4 text-cyan-400" />
@@ -63,15 +63,15 @@ export const SettingsView: React.FC = () => {
           </div>
         </div>
 
-        {/* Card 2: 告警推送与机器人集成 */}
+        {/* 卡片二：告警推送与机器人集成 */}
         <div className="bg-[#0e1626] border border-slate-800 rounded-xl p-5 space-y-4 shadow-sm text-xs">
           <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
             <Bell className="w-4 h-4 text-cyan-400" />
-            <h2 className="text-sm font-bold text-white">运维事件告警通道 (Webhook)</h2>
+            <h2 className="text-sm font-bold text-white">运维事件告警通道（回调推送）</h2>
           </div>
 
           <div>
-            <label className="text-slate-300 font-medium mb-1.5 block">企业微信 / 钉钉 / 飞书 机器人 Webhook URL</label>
+            <label className="text-slate-300 font-medium mb-1.5 block">企业微信 / 钉钉 / 飞书 机器人回调地址</label>
             <input
               type="text"
               value={webhookUrl}
@@ -94,7 +94,7 @@ export const SettingsView: React.FC = () => {
           </div>
         </div>
 
-        {/* Action Button */}
+        {/* 保存操作区 */}
         <div className="flex items-center justify-between pt-2">
           {saved && (
             <span className="text-emerald-400 text-xs flex items-center gap-1 font-medium animate-in fade-in">

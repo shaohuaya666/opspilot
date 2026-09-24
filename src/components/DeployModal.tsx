@@ -15,9 +15,9 @@ export const DeployModal: React.FC<DeployModalProps> = ({
   projects,
   onTriggerDeploy
 }) => {
-  const [selectedProject, setSelectedProject] = useState(projects[0]?.name || 'Blog-System');
-  const [branch, setBranch] = useState('main');
-  const [strategy, setStrategy] = useState('停机热替 (Recreate)');
+  const [selectedProject, setSelectedProject] = useState(projects[0]?.name || '博客系统');
+  const [branch, setBranch] = useState('主干');
+  const [strategy, setStrategy] = useState('停机热替');
 
   if (!isOpen) return null;
 
@@ -39,7 +39,7 @@ export const DeployModal: React.FC<DeployModalProps> = ({
             </div>
             <div>
               <h2 className="text-base font-bold text-white">快速触发部署流水线</h2>
-              <div className="text-xs text-slate-400 font-mono">Launch Continuous Delivery Pipeline</div>
+              <div className="text-xs text-slate-400 font-mono">启动持续交付部署流水线</div>
             </div>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
@@ -70,7 +70,7 @@ export const DeployModal: React.FC<DeployModalProps> = ({
                 type="text"
                 value={branch}
                 onChange={(e) => setBranch(e.target.value)}
-                placeholder="main"
+                placeholder="主干"
                 className="w-full bg-[#080d17] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono"
               />
             </div>
@@ -82,10 +82,10 @@ export const DeployModal: React.FC<DeployModalProps> = ({
                 onChange={(e) => setStrategy(e.target.value)}
                 className="w-full bg-[#080d17] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
               >
-                <option value="停机热替 (Recreate)">停机热替 (Recreate)</option>
-                <option value="滚动更新 (RollingUpdate)">滚动更新 (RollingUpdate)</option>
-                <option value="蓝绿部署 (BlueGreen)">蓝绿部署 (BlueGreen)</option>
-                <option value="金丝雀发布 (Canary 10%)">金丝雀发布 (Canary 10%)</option>
+                <option value="停机热替">停机热替</option>
+                <option value="滚动更新">滚动更新</option>
+                <option value="蓝绿部署">蓝绿部署</option>
+                <option value="金丝雀发布 (10%)">金丝雀发布 (10%)</option>
               </select>
             </div>
           </div>
@@ -101,7 +101,7 @@ export const DeployModal: React.FC<DeployModalProps> = ({
                 <span className="font-mono text-slate-200">{currentProj.portMap}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">最新 Commit:</span>
+                <span className="text-slate-500">最新提交号：</span>
                 <span className="font-mono text-slate-400">{currentProj.gitCommit} ({currentProj.gitMessage.slice(0, 24)}...)</span>
               </div>
             </div>

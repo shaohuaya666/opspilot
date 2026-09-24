@@ -43,7 +43,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
 }) => {
   return (
     <div id="overview-view" className="space-y-6">
-      {/* View Title & Action Bar */}
+      {/* 页面标题与操作栏 */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
@@ -52,7 +52,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             <span className="text-cyan-400">实时监控</span>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight mt-1 flex items-center gap-2">
-            <span>首页概览 · Infrastructure Mesh</span>
+            <span>首页概览 · 基础设施编排全景</span>
           </h1>
         </div>
 
@@ -86,7 +86,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
 
           <button
             id="overview-quick-terminal-btn"
-            onClick={() => onOpenTerminal('Production-Server')}
+            onClick={() => onOpenTerminal('生产服务器')}
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#0f172a] hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-medium transition-all cursor-pointer"
           >
             <Terminal className="w-3.5 h-3.5 text-slate-400" />
@@ -95,7 +95,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
         </div>
       </div>
 
-      {/* 4 Metrics Cards Row */}
+      {/* 四个核心指标卡片 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: 项目总数 */}
         <div 
@@ -142,7 +142,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             </span>
           </div>
           <div className="mt-3 text-xs text-slate-400 font-mono">
-            Dev · Test · Production
+            开发 · 测试 · 生产
           </div>
         </div>
 
@@ -159,19 +159,19 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-3xl font-extrabold text-white tracking-tight">10</span>
-            <span className="text-xs text-emerald-400 font-medium">98.2% Uptime</span>
+            <span className="text-xs text-emerald-400 font-medium">可用率 98.2%</span>
           </div>
           <div className="mt-3 flex items-center justify-between text-xs">
-            <span className="text-slate-400 font-mono">Active Pods: 14</span>
+            <span className="text-slate-400 font-mono">活跃容器组：14</span>
             <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-950/60 border border-emerald-600/40 text-emerald-300">
-              SLA Met
+              服务等级达标
             </span>
           </div>
         </div>
 
         {/* Card 4: 异常告警服务 */}
         <div 
-          onClick={() => onTriggerRollback('Order-System')}
+          onClick={() => onTriggerRollback('订单系统')}
           className="bg-[#0e1626] border border-red-900/40 hover:border-red-600/60 rounded-xl p-4.5 transition-all cursor-pointer group shadow-sm relative overflow-hidden"
         >
           <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
@@ -185,28 +185,28 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             <span className="text-xs text-red-400 font-medium">需运维介入</span>
           </div>
           <div className="mt-3 text-xs text-slate-300 truncate font-mono">
-            <span className="text-red-400 font-semibold">Order-System:</span> 容器死锁重启中
+            <span className="text-red-400 font-semibold">订单系统：</span>容器死锁重启中
           </div>
         </div>
       </div>
 
-      {/* Section 1: 服务器状态与资源指标 (3 Nodes) */}
+      {/* 分区一：服务器状态与资源指标（3 个节点） */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-sm bg-cyan-400 rotate-45"></div>
             <h2 className="text-sm font-bold text-white tracking-tight">
-              服务器状态与资源指标 (3 Nodes)
+              服务器状态与资源指标（3 个节点）
             </h2>
           </div>
           <div className="text-xs text-slate-400 font-mono">
-            指标采样间隔: 5s · Ping: 2ms
+            指标采样间隔：5 秒 · 网络延迟：2 毫秒
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {servers.map((node) => {
-            const memoryBarColor = node.name === 'Test-Server' 
+            const memoryBarColor = node.name === '测试服务器' 
               ? 'bg-gradient-to-r from-blue-500 to-indigo-500' 
               : 'bg-gradient-to-r from-cyan-400 to-blue-500';
 
@@ -215,22 +215,22 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                 key={node.id}
                 className="bg-[#0e1626] border border-slate-800 rounded-xl p-4 space-y-4 hover:border-slate-700 transition-colors"
               >
-                {/* Node Title & Badge */}
+                {/* 节点名称与状态徽标 */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
                     <span className="font-bold text-sm text-white">{node.name}</span>
                   </div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950/70 border border-emerald-500/40 text-emerald-400">
-                    ONLINE
+                    在线
                   </span>
                 </div>
 
-                {/* Network & OS Info */}
+                {/* 网络与系统信息 */}
                 <div className="space-y-1 text-xs">
                   <div className="flex items-center justify-between text-slate-400">
                     <span className="font-mono text-slate-300">{node.internalIp}</span>
-                    <span className="font-mono">Port: {node.port}</span>
+                    <span className="font-mono">端口：{node.port}</span>
                   </div>
                   <div className="flex items-center justify-between text-[11px] text-slate-400">
                     <span>{node.os.split(' ')[0]} {node.os.split(' ')[1]}</span>
@@ -238,9 +238,9 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                   </div>
                 </div>
 
-                {/* Progress Bars */}
+                {/* 资源占用进度条 */}
                 <div className="space-y-2.5 pt-1 text-xs">
-                  {/* CPU */}
+                  {/* 处理器 */}
                   <div>
                     <div className="flex justify-between text-slate-400 mb-1">
                       <span>CPU 负载</span>
@@ -254,7 +254,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                     </div>
                   </div>
 
-                  {/* RAM */}
+                  {/* 内存 */}
                   <div>
                     <div className="flex justify-between text-slate-400 mb-1">
                       <span>内存占用 ({node.memoryUsed} / {node.memoryTotal} GB)</span>
@@ -268,7 +268,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                     </div>
                   </div>
 
-                  {/* Disk */}
+                  {/* 磁盘 */}
                   <div>
                     <div className="flex justify-between text-slate-400 mb-1">
                       <span>存储空间 ({node.storageUsed} / {node.storageTotal} GB)</span>
@@ -283,9 +283,9 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                   </div>
                 </div>
 
-                {/* Card Footer */}
+                {/* 卡片底部信息 */}
                 <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-                  <span>运行容器: {node.runningContainersCount}</span>
+                  <span>运行容器：{node.runningContainersCount}</span>
                   <div className="flex items-center gap-2">
                     <button 
                       onClick={() => onOpenTerminal(node.name)}
@@ -309,13 +309,13 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
         </div>
       </div>
 
-      {/* Section 2: 最近部署动态 (Recent Deployments) */}
+      {/* 分区二：最近部署动态 */}
       <div className="space-y-3 pt-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-base">🚀</span>
             <h2 className="text-sm font-bold text-white tracking-tight">
-              最近部署动态 (Recent Deployments)
+              最近部署动态
             </h2>
           </div>
           <button
@@ -327,7 +327,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
           </button>
         </div>
 
-        {/* Deployments Table */}
+        {/* 部署记录表格 */}
         <div className="bg-[#0e1626] border border-slate-800/90 rounded-xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
@@ -352,7 +352,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                       key={rec.id}
                       className="hover:bg-slate-800/40 transition-colors group"
                     >
-                      {/* Name & Stack */}
+                      {/* 工程名称与技术栈 */}
                       <td className="px-4 py-3.5">
                         <div className="flex items-center gap-2">
                           <span className={`font-bold ${isFailed ? 'text-red-400' : 'text-slate-100'}`}>
@@ -369,29 +369,29 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                         )}
                       </td>
 
-                      {/* Version */}
+                      {/* 版本号 */}
                       <td className="px-4 py-3.5 font-mono text-slate-300">
                         {rec.version}
                       </td>
 
-                      {/* Target Node */}
+                      {/* 目标节点 */}
                       <td className="px-4 py-3.5 text-slate-300">
                         {rec.targetNode}
                       </td>
 
-                      {/* Git Commit */}
+                      {/* 代码提交 */}
                       <td className="px-4 py-3.5 font-mono text-slate-300">
                         <span className="text-slate-200">{rec.gitBranch}</span>
                         <span className="text-slate-500 mx-1">/</span>
                         <span className="text-cyan-400">{rec.gitCommit}</span>
                       </td>
 
-                      {/* Duration */}
+                      {/* 耗时 */}
                       <td className="px-4 py-3.5 font-mono text-slate-400">
                         {rec.duration}
                       </td>
 
-                      {/* Status */}
+                      {/* 流水线状态 */}
                       <td className="px-4 py-3.5">
                         {isFailed ? (
                           <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-red-950/60 border border-red-600/40 text-red-400">
@@ -406,12 +406,12 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                         )}
                       </td>
 
-                      {/* Deployed At */}
+                      {/* 部署时间 */}
                       <td className="px-4 py-3.5 text-slate-400">
                         {rec.deployedAt}
                       </td>
 
-                      {/* Actions */}
+                      {/* 操作按钮 */}
                       <td className="px-4 py-3.5 text-right space-x-2">
                         {isFailed ? (
                           <>

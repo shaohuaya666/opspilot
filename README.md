@@ -36,7 +36,7 @@ opspilot/
 │   ├── types.ts            # TypeScript 类型定义
 │   ├── index.css           # 全局样式（Tailwind）
 │   ├── data/
-│   │   └── mockData.ts     # Mock 数据
+│   │   └── mockData.ts     # 模拟数据
 │   └── components/         # 页面视图与弹窗组件
 │       ├── OverviewView.tsx       # 总览视图
 │       ├── ProjectsView.tsx       # 项目管理
@@ -45,7 +45,7 @@ opspilot/
 │       ├── ContainersView.tsx     # 容器管理
 │       ├── VersionsView.tsx       # 版本回滚
 │       ├── LogsView.tsx           # 实时日志
-│       └── ...                    # 其余视图与弹窗组件
+│       └── ...                    # 其余视图与弹窗组件（均已中文化）
 └── vite.config.ts         # Vite 配置
 ```
 

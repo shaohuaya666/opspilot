@@ -18,8 +18,8 @@ export const QuickDocsModal: React.FC<QuickDocsModalProps> = ({ isOpen, onClose 
               <HelpCircle className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white">OpsPilot 平台快速指引 (Quick Docs)</h2>
-              <div className="text-xs text-slate-400 font-mono">DevOps Architecture & Operational Playbook</div>
+              <h2 className="text-base font-bold text-white">OpsPilot 平台快速指引</h2>
+              <div className="text-xs text-slate-400 font-mono">运维架构说明与应急处置手册</div>
             </div>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
@@ -39,7 +39,7 @@ export const QuickDocsModal: React.FC<QuickDocsModalProps> = ({ isOpen, onClose 
 
           <div className="space-y-1.5 pt-2 border-t border-slate-800">
             <h3 className="text-sm font-bold text-red-300 flex items-center gap-2">
-              <GitBranch className="w-4 h-4" /> 2. 紧急故障秒级回滚机制 (Rollback)
+              <GitBranch className="w-4 h-4" /> 2. 紧急故障秒级回滚机制
             </h3>
             <p className="leading-relaxed text-slate-400">
               当线上突发故障或服务健康检查超时，可直接在【告警横幅】或【版本管理】页面点击「极速回滚至此版」。平台会使用本地缓存的历史镜像直接热替换故障容器，耗时仅 3~5 秒。
@@ -51,7 +51,7 @@ export const QuickDocsModal: React.FC<QuickDocsModalProps> = ({ isOpen, onClose 
               <Server className="w-4 h-4" /> 3. 跨节点 SSH 纳管与免密鉴权
             </h3>
             <p className="leading-relaxed text-slate-400">
-              支持一键纳入 Ubuntu / Debian / CentOS / Alpine 节点。通过 AES-256 加密的 SSH 密钥连接，内置 Web 控制台终端，随时执行 <code className="text-cyan-400 font-mono">docker ps</code>、<code className="text-cyan-400 font-mono">netstat</code> 等诊断指令。
+              支持一键纳入 Ubuntu / Debian / CentOS / Alpine 节点。通过 AES-256 加密的远程登录密钥连接，内置网页控制台终端，随时执行 <code className="text-cyan-400 font-mono">docker ps</code>、<code className="text-cyan-400 font-mono">netstat</code> 等诊断指令。
             </p>
           </div>
         </div>

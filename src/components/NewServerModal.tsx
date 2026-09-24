@@ -29,12 +29,12 @@ export const NewServerModal: React.FC<NewServerModalProps> = ({
     onAddServer({
       name,
       role,
-      status: 'ONLINE',
+      status: '在线',
       internalIp: ip,
       port: parseInt(port) || 22,
       os,
-      dockerVersion: 'Docker 24.0.7 Running (API 1.43)',
-      cpuCores: '4 Cores / AMD EPYC 2.8GHz',
+      dockerVersion: 'Docker 24.0.7 运行中 (接口 1.43)',
+      cpuCores: '4 核 / AMD 霄龙 2.8GHz',
       cpuLoad: 12,
       memoryUsed: 2.1,
       memoryTotal: 8.0,
@@ -61,7 +61,7 @@ export const NewServerModal: React.FC<NewServerModalProps> = ({
             </div>
             <div>
               <h2 className="text-base font-bold text-white">接入新服务器节点</h2>
-              <div className="text-xs text-slate-400 font-mono">Connect Linux Host via SSH & Docker Engine</div>
+              <div className="text-xs text-slate-400 font-mono">通过远程连接与容器引擎纳管主机</div>
             </div>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
@@ -76,7 +76,7 @@ export const NewServerModal: React.FC<NewServerModalProps> = ({
               <input 
                 type="text" 
                 required
-                placeholder="例如: Edge-Node-01"
+                placeholder="例如：边缘节点-01"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full bg-[#080d17] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 font-mono"
@@ -89,9 +89,9 @@ export const NewServerModal: React.FC<NewServerModalProps> = ({
                 onChange={(e) => setRole(e.target.value as any)}
                 className="w-full bg-[#080d17] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500"
               >
-                <option value="核心生产节点">核心生产节点 (Production)</option>
-                <option value="开发测试">开发测试 (Dev)</option>
-                <option value="预发布环境">预发布环境 (Test/Staging)</option>
+                <option value="核心生产节点">核心生产节点（生产）</option>
+                <option value="开发测试">开发测试（开发）</option>
+                <option value="预发布环境">预发布环境（测试与预发布）</option>
               </select>
             </div>
           </div>
@@ -136,7 +136,7 @@ export const NewServerModal: React.FC<NewServerModalProps> = ({
 
           <div>
             <label className="text-slate-300 font-medium mb-1.5 flex items-center justify-between">
-              <span>SSH 认证私钥 (PEM/OpenSSH)</span>
+              <span>远程登录认证私钥</span>
               <span className="text-emerald-400 font-mono text-[11px] flex items-center gap-1">
                 <Shield className="w-3 h-3" /> AES-256 加密
               </span>

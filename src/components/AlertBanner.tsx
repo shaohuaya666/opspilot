@@ -17,7 +17,7 @@ export const AlertBanner: React.FC<AlertBannerProps> = ({
       id="critical-alert-banner" 
       className="relative overflow-hidden rounded-xl bg-gradient-to-r from-red-950/80 via-[#26090c]/90 to-red-950/60 border border-red-500/40 p-4 shadow-lg shadow-red-950/40 mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
     >
-      {/* Left indicator icon & text */}
+      {/* 左侧告警图标与说明 */}
       <div className="flex items-start gap-3.5">
         <div className="w-10 h-10 rounded-lg bg-red-600/30 border border-red-500/50 flex items-center justify-center shrink-0 shadow-inner">
           <AlertOctagon className="w-5 h-5 text-red-400 animate-pulse" />
@@ -25,19 +25,19 @@ export const AlertBanner: React.FC<AlertBannerProps> = ({
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono font-bold tracking-wider text-red-300 uppercase">
-              告警级别: CRITICAL
+              告警级别：严重
             </span>
             <span className="px-2 py-0.5 rounded bg-red-900/60 text-red-200 text-[11px] font-mono border border-red-700/50">
-              Dev-Server:8080
+              开发服务器:8080
             </span>
           </div>
           <div className="text-sm font-medium text-slate-100 mt-1 leading-snug">
-            Order-System 在 Dev-Server 上最近一次部署因端口健康探测超时失败，已触发自动熔断保护。
+            订单系统 在 开发服务器 上最近一次部署因端口健康探测超时失败，已触发自动熔断保护。
           </div>
         </div>
       </div>
 
-      {/* Right action buttons */}
+      {/* 右侧操作按钮 */}
       <div className="flex items-center gap-2.5 shrink-0 self-end md:self-center">
         <button
           id="alert-diagnostic-btn"
